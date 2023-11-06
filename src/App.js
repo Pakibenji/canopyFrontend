@@ -8,6 +8,7 @@ import Header from "./components/LayoutComp/Header";
 import Register from "./pages/auth/Register";
 import Login from "./pages/auth/Login";
 import User from "./pages/auth/User";
+import Footer from "./components/LayoutComp/Footer";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/userInfo" element={<User />} />
       </Routes>
+      <Footer />
     </Router>
   );
 };

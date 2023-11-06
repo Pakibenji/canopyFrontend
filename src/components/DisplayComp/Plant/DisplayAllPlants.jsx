@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import LikePlantButton from "./LikePlantButton";
 
 const DisplayAllPlants = ({ plant }) => {
   const { _id, proprietary, photo, like, toBarter} = plant;
@@ -11,6 +12,7 @@ const DisplayAllPlants = ({ plant }) => {
       <p>{like}</p>
       <p>{toBarter ? "To barter" : "Not to barter"}</p>
       <button onClick={() => navigate(`/plant/${_id}`)}>View</button>
+      <LikePlantButton plant={plant}/>
     </div>  
   );
 };

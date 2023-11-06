@@ -48,6 +48,27 @@ const plantSlice = createSlice({
       state.loading = false;
       state.error = action.payload.error;
     },
+    "plant/likePlant/pending": (state, action) => {
+      state.loading = true;
+    },
+    "plant/likePlant/fulfilled": (state, action) => {
+      state.loading = false;
+      const likedPlant = action.payload;
+      state.plants = state.plants.map((plant) => {
+        if (plant._id === likedPlant._id) {
+          return {
+            ...plant,
+            like: likedPlant.like,
+          };
+        }
+        return plant;
+      });
+      state.success = true;
+    },
+    "plant/likePlant/rejected": (state, action) => {
+      state.loading = false;
+      state.error = action.payload.error;
+    },
   },
 });
 

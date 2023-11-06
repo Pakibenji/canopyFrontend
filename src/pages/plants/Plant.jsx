@@ -1,26 +1,9 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import OnePlant from "../../components/plantComp/OnePlant";
+import DisplayPlant from "../../components/DisplayComp/Plant/DisplayPlant";
 
 const Plant = () => {
   const { id } = useParams();
-  // const likePlant = async () => {
-  //   try {
-  //     const res = await fetch(`http://localhost:5000/plants/${id}`, {
-  //       method: "PATCH",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ like: plant.like + 1 }),
-  //     });
-  //     const json = await res.json();
-  //     setPlant(json);
-  //     setMessage("Liked!");
-  //   } catch (error) {
-  //     console.error(error);
-  //     setError("Error liking plant");
-  //   }
-  // };
 
   // const updatePlant = async (toBarter) => {
   //   try {
@@ -63,7 +46,7 @@ const Plant = () => {
   // };
   return (
     <div>
-      <OnePlant id={id} />
+      <DisplayPlant id={id} />
     </div>
   );
 };

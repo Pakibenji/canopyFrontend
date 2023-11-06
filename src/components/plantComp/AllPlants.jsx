@@ -4,11 +4,10 @@ import { useSelector } from "react-redux";
 import usePlant from "../../utils/usePlant";
 
 const AllPlants = () => {
-  const getAllPlant = usePlant("getAllPlants")
+  usePlant("getAllPlants");
   const { loading, plants, error, success } = useSelector(
     (state) => state.plant
   );
-
 
   return (
     <div>

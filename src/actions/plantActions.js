@@ -45,3 +45,21 @@ export const createPlant = createAsyncThunk(
   }
 );
 
+export const likePlant = createAsyncThunk(
+  "plant/likePlant",
+  async (plant, thunkAPI) => {
+    try {
+      const response = await fetch(`http://localhost:5000/plants/${plant._id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ like: plant.like + 1}),
+      });
+      const updatedPlant = await response.json();
+      return updatedPlant;
+    } catch (error) {
+      return thunkAPI.rejectWithValue({ error: error.message });
+    }
+  }
+);
