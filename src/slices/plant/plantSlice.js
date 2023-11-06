@@ -41,7 +41,8 @@ const plantSlice = createSlice({
     },
     "plant/createPlant/fulfilled": (state, action) => {
       state.loading = false;
-      state.plants = action.payload;
+      const newPlant = action.payload;
+      state.plants = [...state.plants, newPlant];
       state.success = true;
     },
     "plant/createPlant/rejected": (state, action) => {
@@ -66,6 +67,27 @@ const plantSlice = createSlice({
       state.success = true;
     },
     "plant/likePlant/rejected": (state, action) => {
+      state.loading = false;
+      state.error = action.payload.error;
+    },
+    "plant/toggleBarterPlant/pending": (state, action) => {
+      state.loading = true;
+    },
+    "plant/toggleBarterPlant/fulfilled": (state, action) => {
+      state.loading = false;
+      const toggledPlant = action.payload;
+      state.plants = state.plants.map((plant) => {
+        if (plant._id === toggledPlant._id) {
+          return {
+            ...plant,
+            toBarter: toggledPlant.toBarter,
+          };
+        }
+        return plant;
+      });
+      state.success = true;
+    },
+    "plant/toggleBarterPlant/rejected": (state, action) => {
       state.loading = false;
       state.error = action.payload.error;
     },

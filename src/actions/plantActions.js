@@ -63,3 +63,23 @@ export const likePlant = createAsyncThunk(
     }
   }
 );
+
+export const toggleBarterPlant = createAsyncThunk(
+  "plant/toggleBarterPlant",
+  async (plant, thunkAPI) => {
+    try {
+      const response = await fetch(`http://localhost:5000/plants/${plant._id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ toBarter: !plant.toBarter }),
+      });
+      const updatedPlant = await response.json();
+      console.log(updatedPlant)
+      return updatedPlant;
+    } catch (error) {
+      return thunkAPI.rejectWithValue({ error: error.message });
+    }
+  }
+);

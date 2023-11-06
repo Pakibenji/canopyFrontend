@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import DisplayErrorOrMessage from "../../LayoutComp/ErrorOrMessage";
 import FormButton from "../FormElements/FormButton";
 import FormField from "../FormElements/FormField";
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { createPlant } from "../../../actions/plantActions";
 
@@ -16,6 +16,7 @@ const AddPlantForm = () => {
     error: "",
   });
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { plants } = useSelector((state) => state.plant);
 
   const handleSubmit = async (e) => {
@@ -31,9 +32,7 @@ const AddPlantForm = () => {
           message: "Plant added!",
           error: "",
         });
-        setTimeout(() => {
-          redirect("/");
-        }, 1000);
+        navigate("/");
       }
     } catch (error) {
       console.error(error);

@@ -23,14 +23,6 @@ const Plant = () => {
   //   }
   // };
 
-  // const addToBarter = async () => {
-  //   await updatePlant(true);
-  // };
-
-  // const removeFromBarter = async () => {
-  //   await updatePlant(false);
-  // };
-
   // const deletePlant = async () => {
   //   try {
   //     const res = await fetch(`http://localhost:5000/plants/${id}`, {
