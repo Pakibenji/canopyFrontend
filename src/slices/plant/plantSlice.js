@@ -91,6 +91,42 @@ const plantSlice = createSlice({
       state.loading = false;
       state.error = action.payload.error;
     },
+    "plant/editPlant/pending": (state, action) => {
+      state.loading = true;
+    },
+    "plant/editPlant/fulfilled": (state, action) => {
+      state.loading = false;
+      const editedPlant = action.payload;
+      state.plants = state.plants.map((plant) => {
+        if (plant._id === editedPlant._id) {
+          return {
+            ...plant,
+            ...editedPlant,
+          };
+        }
+        return plant;
+      });
+      state.success = true;
+    },
+    "plant/editPlant/rejected": (state, action) => {
+      state.loading = false;
+      state.error = action.payload.error;
+    },
+    "plant/deletePlant/pending": (state, action) => {
+      state.loading = true;
+    },
+    "plant/deletePlant/fulfilled": (state, action) => {
+      state.loading = false;
+      const deletedPlant = action.payload;
+      state.plants = state.plants.filter(
+        (plant) => plant._id !== deletedPlant._id
+      );
+      state.success = true;
+    },
+    "plant/deletePlant/rejected": (state, action) => {
+      state.loading = false;
+      state.error = action.payload.error;
+    },
   },
 });
 

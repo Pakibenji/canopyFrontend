@@ -1,8 +1,14 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const HandleToEditPageButton = ({id}) => {
+const HandleToEditPageButton = ({plant}) => {
+    const navigate = useNavigate();
+
+    const handleToEditPage = () => {
+        navigate(`/plant/${plant._id}/edit`);
+    }
     return (
-        <button>Edit</button>
+        <button onClick={handleToEditPage}>Edit</button>
     );
 };
 

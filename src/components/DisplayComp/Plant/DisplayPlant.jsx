@@ -7,10 +7,10 @@ import LikePlantButton from "./LikePlantButton";
 
 const DisplayPlant = ({ id }) => {
   usePlant("getOnePlant", id);
-  const { loading, plants, error, success } = useSelector(
+  const {plants} = useSelector(
     (state) => state.plant
   );
-  const { _id, name, proprietary, photo, description, like, toBarter } =
+  const {name, proprietary, photo, description, like, toBarter } =
     plants[0] || {};
   return (
     <div>
@@ -20,7 +20,7 @@ const DisplayPlant = ({ id }) => {
       <p>{description}</p>
       <p>{like}</p>
       <p>{toBarter ? "To barter" : "Not to barter"}</p>
-      <HandleToEditPageButton id={_id} />
+      <HandleToEditPageButton plant={plants[0]}/>
       <ToggleToBarterPlantButton toBarter={toBarter} plant={plants[0]} />
       <LikePlantButton plant={plants[0]} />
     </div>

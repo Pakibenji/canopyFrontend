@@ -83,3 +83,37 @@ export const toggleBarterPlant = createAsyncThunk(
     }
   }
 );
+
+export const editPlant = createAsyncThunk(
+  "plant/editPlant",
+  async (plant, thunkAPI) => {
+    try {
+      const response = await fetch(`http://localhost:5000/plants/${plant._id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(plant),
+      });
+      const updatedPlant = await response.json();
+      return updatedPlant;
+    } catch (error) {
+      return thunkAPI.rejectWithValue({ error: error.message });
+    }
+  }
+);
+
+export const deletePlant = createAsyncThunk(
+  "plant/deletePlant",
+  async (plant, thunkAPI) => {
+    try {
+      const response = await fetch(`http://localhost:5000/plants/${plant._id}`, {
+        method: "DELETE",
+      });
+      const deletedPlant = await response.json();
+      return deletedPlant;
+    } catch (error) {
+      return thunkAPI.rejectWithValue({ error: error.message });
+    }
+  }
+);
