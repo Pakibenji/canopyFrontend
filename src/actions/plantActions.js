@@ -6,7 +6,10 @@ export const getAllPlants = createAsyncThunk(
     try {
       const response = await fetch("http://localhost:5000/plants");
       const plants = await response.json();
-      return plants;
+      const sortedPlants = plants.sort((a, b) => {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      });
+      return sortedPlants;
     } catch (error) {
       return thunkAPI.rejectWithValue({ error: error.message });
     }
@@ -49,13 +52,16 @@ export const likePlant = createAsyncThunk(
   "plant/likePlant",
   async (plant, thunkAPI) => {
     try {
-      const response = await fetch(`http://localhost:5000/plants/${plant._id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ like: plant.like + 1}),
-      });
+      const response = await fetch(
+        `http://localhost:5000/plants/${plant._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ like: plant.like + 1 }),
+        }
+      );
       const updatedPlant = await response.json();
       return updatedPlant;
     } catch (error) {
@@ -68,15 +74,18 @@ export const toggleBarterPlant = createAsyncThunk(
   "plant/toggleBarterPlant",
   async (plant, thunkAPI) => {
     try {
-      const response = await fetch(`http://localhost:5000/plants/${plant._id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ toBarter: !plant.toBarter }),
-      });
+      const response = await fetch(
+        `http://localhost:5000/plants/${plant._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ toBarter: !plant.toBarter }),
+        }
+      );
       const updatedPlant = await response.json();
-      console.log(updatedPlant)
+      console.log(updatedPlant);
       return updatedPlant;
     } catch (error) {
       return thunkAPI.rejectWithValue({ error: error.message });
@@ -88,13 +97,16 @@ export const editPlant = createAsyncThunk(
   "plant/editPlant",
   async (plant, thunkAPI) => {
     try {
-      const response = await fetch(`http://localhost:5000/plants/${plant._id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(plant),
-      });
+      const response = await fetch(
+        `http://localhost:5000/plants/${plant._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(plant),
+        }
+      );
       const updatedPlant = await response.json();
       return updatedPlant;
     } catch (error) {
@@ -107,9 +119,12 @@ export const deletePlant = createAsyncThunk(
   "plant/deletePlant",
   async (plant, thunkAPI) => {
     try {
-      const response = await fetch(`http://localhost:5000/plants/${plant._id}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `http://localhost:5000/plants/${plant._id}`,
+        {
+          method: "DELETE",
+        }
+      );
       const deletedPlant = await response.json();
       return deletedPlant;
     } catch (error) {

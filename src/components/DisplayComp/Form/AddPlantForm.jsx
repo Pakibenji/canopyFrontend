@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createPlant } from "../../../actions/plantActions";
 
 const AddPlantForm = () => {
+  const { userId, userDisplayName } = useSelector((state) => state.auth.userInfo);
   const [formData, setFormData] = useState({
     name: "",
     photo: "",
@@ -14,10 +15,13 @@ const AddPlantForm = () => {
     description: "",
     message: "",
     error: "",
+    proprietary: userDisplayName,
+    userId: userId,
   });
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { plants } = useSelector((state) => state.plant);
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,6 +35,7 @@ const AddPlantForm = () => {
           description: "",
           message: "Plant added!",
           error: "",
+          proprietary: "",
         });
         navigate("/");
       }

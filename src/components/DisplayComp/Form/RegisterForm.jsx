@@ -7,6 +7,7 @@ import DisplayErrorOrMessage from "../../LayoutComp/ErrorOrMessage";
 import { useNavigate } from "react-router";
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
+    displayName: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -28,13 +29,14 @@ const RegisterForm = () => {
     dispatch(registerUser(formData));
     if (success) {
       setFormData({
+        displayName: "",
         email: "",
         password: "",
         confirmPassword: "",
         message: "Your account has been created successfully",
         error: "",
       });
-      navigate("/login");
+      
     }
     if (error) {
       setFormData({
@@ -42,11 +44,22 @@ const RegisterForm = () => {
         message: "",
         error: error,
       });
+
+    }
+    if (userInfo) {
+      navigate("/login");
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
+      <FormField
+        label="Display Name"
+        type="text"
+        placeholder="Enter your display name"
+        value={formData.displayName}
+        onChange={(value) => setFormData({ ...formData, displayName: value })}
+      />
       <FormField
         label="Email"
         type="email"

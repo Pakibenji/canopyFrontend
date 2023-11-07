@@ -1,6 +1,8 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import {
   createUserWithEmailAndPassword,
+  sendEmailVerification,
+  updateProfile,
   signInWithEmailAndPassword,
   signOut,
 } from "@firebase/auth";
@@ -8,7 +10,7 @@ import { auth } from "../config/firebase";
 
 export const registerUser = createAsyncThunk(
   "auth/register",
-  async ({ email, password }, thunkAPI) => {
+  async ({ email, password, displayName }, thunkAPI) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -16,7 +18,17 @@ export const registerUser = createAsyncThunk(
         password
       );
       const user = userCredential.user;
-      return user;
+      await sendEmailVerification(user);
+      await updateProfile(user, {
+        displayName: displayName,
+      });
+      const userEmail = user.email;
+      const userId = user.uid;
+      const userDisplayName = user.providerData[0].displayName;
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ userEmail, userId, userDisplayName })
+      );
     } catch (error) {
       return thunkAPI.rejectWithValue({ error: error.message });
     }
@@ -33,7 +45,14 @@ export const loginUser = createAsyncThunk(
         password
       );
       const user = userCredential.user;
-      return user;
+      const userEmail = user.email;
+      const userId = user.uid;
+      const userDisplayName = user.providerData[0].displayName;
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ userEmail, userId, userDisplayName })
+      );
+      return { userEmail, userId, userDisplayName };
     } catch (error) {
       return thunkAPI.rejectWithValue({ error: error.message });
     }
@@ -43,7 +62,18 @@ export const loginUser = createAsyncThunk(
 export const logoutUser = createAsyncThunk("auth/logout", async () => {
   try {
     await signOut(auth);
+    localStorage.removeItem("user");
   } catch (error) {
     console.log(error);
   }
 });
+
+export const checkUserInLocalStorage = createAction(
+  "auth/checkUserInLocalStorage",
+  () => {
+    const userFromLocalStorage = JSON.parse(localStorage.getItem("user"));
+    return {
+      payload: userFromLocalStorage,
+    };
+  }
+);

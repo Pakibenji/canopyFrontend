@@ -10,7 +10,15 @@ const initialState = {
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    checkUserInLocalStorage: (state, action) => {
+      const userFromLocalStorage = JSON.parse(localStorage.getItem("user"));
+      return {
+        ...state,
+        userInfo: userFromLocalStorage,
+      };
+    },
+  },
   extraReducers: {
     "auth/register/pending": (state, action) => {
       state.loading = true;
@@ -29,7 +37,9 @@ const authSlice = createSlice({
     },
     "auth/login/fulfilled": (state, action) => {
       state.loading = false;
-      state.userInfo = action.payload;
+      state.userInfo.userId = action.payload.userId
+      state.userInfo.userEmail = action.payload.userEmail
+      state.userInfo.userDisplayName = action.payload.userDisplayName
       state.success = true;
     },
     "auth/login/rejected": (state, action) => {

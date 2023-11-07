@@ -1,10 +1,10 @@
 import React from "react";
 
 const DisplayUserInfo = ({ userInfo, logout }) => {
-  const { email } = userInfo;
+  const { userEmail } = userInfo;
   return (
     <div>
-      {email}
+      {userEmail}
       <button onClick={logout}>Logout</button>
     </div>
   );
